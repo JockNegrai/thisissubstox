@@ -997,7 +997,7 @@ td.mono,th.mono{font-family:var(--mono);font-size:12px}
   </div>
   <div class="nav-cta">
     <button class="btn-ghost" onclick="showAuth('login')">Sign In</button>
-    <button class="btn-nav" onclick="window.location.href=STRIPE_GROWTH">Start Free Trial</button>
+    <button class="btn-nav" onclick="showAuth('signup')">Start Free Trial</button>
   </div>
 </nav>
 
@@ -1029,7 +1029,7 @@ td.mono,th.mono{font-family:var(--mono);font-size:12px}
   <h1 class="hero-h1">Stop guessing.<br>Start <span class="hero-gradient">knowing</span> your inventory.</h1>
   <p class="hero-sub">SubStox gives you AI-powered demand forecasting, margin analysis, reorder automation, and Shopify sync — all in one beautifully simple dashboard.</p>
   <div class="hero-btns">
-    <button class="btn-hero-primary" onclick="window.location.href=STRIPE_GROWTH">Start Your Free Trial</button>
+    <button class="btn-hero-primary" onclick="showAuth('signup')">Start Your Free Trial</button>
     <button class="btn-hero-ghost" onclick="demoLogin()">
       <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7" stroke="currentColor" stroke-width="1.4"/><path d="M6.5 5.5l4 2.5-4 2.5V5.5z" fill="currentColor"/></svg>
       Explore live demo
@@ -1222,7 +1222,7 @@ td.mono,th.mono{font-family:var(--mono);font-size:12px}
         <li class="muted">P&amp;L modeling</li>
         <li class="muted">Accounting sync</li>
       </ul>
-      <button class="price-btn price-btn-outline" onclick="window.location.href=STRIPE_STARTER">Start Free Trial</button>
+      <button class="price-btn price-btn-outline" onclick="showAuth('signup')">Start Free Trial</button>
     </div>
 
     <!-- GROWTH — featured -->
@@ -1244,7 +1244,7 @@ td.mono,th.mono{font-family:var(--mono);font-size:12px}
         <li class="muted">QuickBooks / Xero sync</li>
         <li class="muted">Custom workflows</li>
       </ul>
-      <button class="price-btn price-btn-primary" onclick="window.location.href=STRIPE_GROWTH">Get Started Free →</button>
+      <button class="price-btn price-btn-primary" onclick="showAuth('signup')">Get Started Free →</button>
     </div>
 
     <!-- ENTERPRISE -->
@@ -1409,7 +1409,7 @@ td.mono,th.mono{font-family:var(--mono);font-size:12px}
       </div>
       <h2>Ready to stop guessing<br>about your inventory?</h2>
       <p>Join operators who finally have real-time visibility into their stock.<br>14 days free. No credit card. Cancel any time.</p>
-      <button class="btn-hero-primary btn-full" onclick="window.location.href=STRIPE_GROWTH" style="justify-content:center;max-width:380px;margin:0 auto 14px">Start Free Trial →</button>
+      <button class="btn-hero-primary btn-full" onclick="showAuth('signup')" style="justify-content:center;max-width:380px;margin:0 auto 14px">Start Free Trial →</button>
       <div style="font-size:12px;color:rgba(255,255,255,0.28)">or <span onclick="demoLogin()" style="color:#60A5FA;cursor:pointer;text-decoration:underline;text-underline-offset:3px">explore the live demo first</span></div>
     </div>
   </div>
@@ -2737,76 +2737,82 @@ function logAction(action, entity, details='') {
 }
 
 // ── DEMO DATA ────────────────────────────────────────────────────────
-let SKUS = [
-  {id:1,code:"SKU-0482",name:"Running Shoes M/10",cat:"Footwear",stock:42,days:11,status:"critical",rop:100,lt:18,price:89,ucost:44,safety:50,demand:1200,ordcost:60,margin:50.6,abc:'A',bin:"A-12-3",notes:"Top seller Q3-Q4. Watch sizing."},
-  {id:2,code:"SKU-0871",name:"Wireless Earbuds Pro",cat:"Electronics",stock:128,days:19,status:"low",rop:120,lt:21,price:149,ucost:89,safety:60,demand:980,ordcost:80,margin:40.3,abc:'A',bin:"B-03-1",notes:""},
-  {id:3,code:"SKU-0330",name:"Yoga Mat Premium",cat:"Fitness",stock:340,days:62,status:"healthy",rop:80,lt:14,price:38,ucost:18.5,safety:30,demand:800,ordcost:40,margin:51.3,abc:'B',bin:"C-07-2",notes:""},
-  {id:4,code:"SKU-1104",name:"Winter Jacket XL",cat:"Apparel",stock:127,days:180,status:"excess",rop:30,lt:30,price:120,ucost:72,safety:15,demand:320,ordcost:50,margin:40.0,abc:'B',bin:"C-14-5",notes:"Seasonal. Markdown if >120 days."},
-  {id:5,code:"SKU-0291",name:"Protein Powder 2lb",cat:"Nutrition",stock:294,days:35,status:"healthy",rop:150,lt:18,price:24,ucost:12.4,safety:80,demand:3600,ordcost:30,margin:48.3,abc:'C',bin:"A-02-1",notes:""},
-  {id:6,code:"SKU-0550",name:"Vitamin C 1000mg",cat:"Nutrition",stock:320,days:28,status:"low",rop:200,lt:10,price:14,ucost:6.8,safety:100,demand:4800,ordcost:25,margin:51.4,abc:'C',bin:"A-01-2",notes:""},
-];
-let LOTS = [
-  {id:1,lot:"LOT-0291-A",skuId:5,skuName:"Protein Powder 2lb",recv:"2023-11-14",expiry:"2026-03-28",qtyLeft:84,cost:12.40,age:117,expDays:18,notes:""},
-  {id:2,lot:"LOT-0291-B",skuId:5,skuName:"Protein Powder 2lb",recv:"2024-01-08",expiry:"2026-06-15",qtyLeft:210,cost:13.10,age:61,expDays:97,notes:""},
-  {id:3,lot:"LOT-0482-A",skuId:1,skuName:"Running Shoes M/10",recv:"2023-12-02",expiry:null,qtyLeft:42,cost:44.00,age:98,expDays:null,notes:"Pacific Supply Co."},
-  {id:4,lot:"LOT-0550-C",skuId:6,skuName:"Vitamin C 1000mg",recv:"2024-02-01",expiry:"2026-04-16",qtyLeft:320,cost:6.80,age:37,expDays:37,notes:""},
-  {id:5,lot:"LOT-0330-B",skuId:3,skuName:"Yoga Mat Premium",recv:"2024-02-19",expiry:null,qtyLeft:340,cost:18.50,age:19,expDays:null,notes:""},
-  {id:6,lot:"LOT-1104-A",skuId:4,skuName:"Winter Jacket XL",recv:"2023-09-01",expiry:null,qtyLeft:127,cost:65.00,age:185,expDays:null,notes:""},
-];
-let ALERTS = [
-  {id:1,title:"Stockout Risk: Running Shoes M/10",desc:"Will stock out in 11 days. Lead time is 18 days. EOQ suggests order of 240 units. Immediate PO required.",sev:"CRITICAL",read:false,sku:"Running Shoes M/10",cat:"Stock",date:"2026-03-09",action:"reorder"},
-  {id:2,title:"Expiring Lot: LOT-0291-A Expiring in 18 Days",desc:"84 units of Protein Powder (LOT-0291-A) expire March 28. $1,042 at risk. FIFO priority set — ensure depletion before expiry.",sev:"HIGH",read:false,sku:"Protein Powder 2lb",cat:"Expiry",date:"2026-03-09",action:"lots"},
-  {id:3,title:"Supplier NXT-Logistics On-Time Rate at 61%",desc:"Below your 80% threshold. 3 open POs are affected. Consider activating Pacific Supply Co. as backup for Running Shoes reorder.",sev:"HIGH",read:false,sku:null,cat:"Supplier",date:"2026-03-08",action:"suppliers"},
-  {id:4,title:"Vitamin C 1000mg — 28 Days Remaining",desc:"Below your 30-day low-stock threshold. QuickShip Partners has 7-day lead time and 87% on-time rate — fastest available option.",sev:"MEDIUM",read:false,sku:"Vitamin C 1000mg",cat:"Stock",date:"2026-03-08",action:"reorder"},
-  {id:5,title:"Excess Inventory: Winter Jacket XL at 180 Days",desc:"127 units, 180 days on hand — 60 days above your 120-day threshold. $9,144 in working capital tied up. Recommend 20-30% markdown.",sev:"LOW",read:true,sku:"Winter Jacket XL",cat:"Stock",date:"2026-03-07",action:"margins"},
-  {id:6,title:"FIFO Violation Detected in Zone B",desc:"Warehouse Zone B is picking LOT-0291-B before LOT-0291-A. Older lot expires in 18 days — switch pick order to FIFO to prevent write-off.",sev:"MEDIUM",read:true,sku:"Protein Powder 2lb",cat:"Stock",date:"2026-03-07",action:"warehouse"},
-];
-let SUPPLIERS = [
-  {id:1,name:"NXT-Logistics",email:"orders@nxt.com",lt:18,ontime:61,fill:88,risk:"HIGH",terms:"Net 30",trend:"declining",country:"USA",currency:"USD",notes:"3rd late delivery in 6 weeks."},
-  {id:2,name:"Pacific Supply Co.",email:"supply@pacific.com",lt:14,ontime:94,fill:98,risk:"LOW",terms:"Net 60",trend:"stable",country:"USA",currency:"USD",notes:"Preferred footwear supplier."},
-  {id:3,name:"QuickShip Partners",email:"qs@quickship.com",lt:7,ontime:87,fill:95,risk:"MEDIUM",terms:"Net 30",trend:"improving",country:"UK",currency:"GBP",notes:"Good for urgent replenishment."},
-];
-let AI_INSIGHTS = [
-  {icon:'⚠️',title:'Running Shoes M/10 — Stockout in 11 Days',detail:'Current stock (42 units) depletes in 11 days. Lead time is 18 days — a 7-day gap. Order immediately to maintain service level.',color:'#DC2626',color_light:'rgba(220,38,38,0.08)',priority:'HIGH',impact:'+$3,740 revenue protected',action:'Create PO Now',actionFn:"goto('reorder')",secondary:'Reorder Engine',secondaryFn:"goto('reorder')",category:'Stock Risk',date:'Today'},
-  {icon:'💡',title:'LIFO Method Saves $4,600 in Taxes This Quarter',detail:'Under LIFO, COGS increases $18,400 due to rising costs, reducing taxable income. At 25% rate, this saves ~$4,600 vs FIFO. Consult your accountant before switching.',color:'#7C3AED',color_light:'rgba(124,58,237,0.08)',priority:'MEDIUM',impact:'$4,600 tax savings',action:'View Financial Model',actionFn:"goto('finance')",secondary:'Compare in Lots',secondaryFn:"goto('lots')",category:'Finance',date:'Today'},
-  {icon:'📦',title:'Winter Jacket XL — 185 Days On Hand (Excess)',detail:'$9,144 in working capital tied up at current velocity. 120+ days exceeds your excess threshold. Consider a 20-30% markdown to accelerate sell-through before Q3.',color:'#D97706',color_light:'rgba(217,119,6,0.08)',priority:'MEDIUM',impact:'$9,144 capital freed',action:'View Margins',actionFn:"goto('margins')",secondary:'View SKU',secondaryFn:"goto('skus')",category:'Inventory Optimization',date:'Today'},
-  {icon:'🏭',title:'NXT-Logistics On-Time Rate at 71% — Below Threshold',detail:'Your 80% on-time threshold is breached. NXT-Logistics is contributing directly to Running Shoes stockout risk. Consider requesting an SLA or activating a backup supplier.',color:'#DC2626',color_light:'rgba(220,38,38,0.08)',priority:'HIGH',impact:'Risk mitigation',action:'View Suppliers',actionFn:"goto('suppliers')",category:'Supplier Risk',date:'Today'},
-  {icon:'🧪',title:'Protein Powder LOT-0291-A — Expiring in 18 Days',detail:'84 units (cost $12.40/unit = $1,041 at risk) expire March 28. FIFO ensures this lot is consumed first. Verify current sell velocity can clear it before expiry.',color:'#EA580C',color_light:'rgba(234,88,12,0.08)',priority:'HIGH',impact:'$1,042 at risk',action:'View Lot Aging',actionFn:"goto('lots')",category:'Expiry Risk',date:'Today'},
-  {icon:'📈',title:'Vitamin C 1000mg — ABC Upgrade Candidate',detail:'Highest demand velocity (4,800 units/year) but classified Class C due to low unit price. Consider upgrading to Class B for tighter reorder controls.',color:'#2563EB',color_light:'rgba(37,99,235,0.08)',priority:'LOW',impact:'Service level improvement',action:'Override ABC Class',actionFn:"goto('abc')",category:'Classification',date:'Today'},
-];
+// ── DEMO DATA — only loaded when demoLogin() is called ───────────────
+const DEMO_DATA = {
+  SKUS:[
+    {id:1,code:"SKU-0482",name:"Running Shoes M/10",cat:"Footwear",stock:42,days:11,status:"critical",rop:100,lt:18,price:89,ucost:44,safety:50,demand:1200,ordcost:60,margin:50.6,abc:'A',bin:"A-12-3",notes:"Top seller Q3-Q4. Watch sizing."},
+    {id:2,code:"SKU-0871",name:"Wireless Earbuds Pro",cat:"Electronics",stock:128,days:19,status:"low",rop:120,lt:21,price:149,ucost:89,safety:60,demand:980,ordcost:80,margin:40.3,abc:'A',bin:"B-03-1",notes:""},
+    {id:3,code:"SKU-0330",name:"Yoga Mat Premium",cat:"Fitness",stock:340,days:62,status:"healthy",rop:80,lt:14,price:38,ucost:18.5,safety:30,demand:800,ordcost:40,margin:51.3,abc:'B',bin:"C-07-2",notes:""},
+    {id:4,code:"SKU-1104",name:"Winter Jacket XL",cat:"Apparel",stock:127,days:180,status:"excess",rop:30,lt:30,price:120,ucost:72,safety:15,demand:320,ordcost:50,margin:40.0,abc:'B',bin:"C-14-5",notes:"Seasonal. Markdown if >120 days."},
+    {id:5,code:"SKU-0291",name:"Protein Powder 2lb",cat:"Nutrition",stock:294,days:35,status:"healthy",rop:150,lt:18,price:24,ucost:12.4,safety:80,demand:3600,ordcost:30,margin:48.3,abc:'C',bin:"A-02-1",notes:""},
+    {id:6,code:"SKU-0550",name:"Vitamin C 1000mg",cat:"Nutrition",stock:320,days:28,status:"low",rop:200,lt:10,price:14,ucost:6.8,safety:100,demand:4800,ordcost:25,margin:51.4,abc:'C',bin:"A-01-2",notes:""},
+  ],
+  LOTS:[
+    {id:1,lot:"LOT-0291-A",skuId:5,skuName:"Protein Powder 2lb",recv:"2023-11-14",expiry:"2026-03-28",qtyLeft:84,cost:12.40,age:117,expDays:18,notes:""},
+    {id:2,lot:"LOT-0291-B",skuId:5,skuName:"Protein Powder 2lb",recv:"2024-01-08",expiry:"2026-06-15",qtyLeft:210,cost:13.10,age:61,expDays:97,notes:""},
+    {id:3,lot:"LOT-0482-A",skuId:1,skuName:"Running Shoes M/10",recv:"2023-12-02",expiry:null,qtyLeft:42,cost:44.00,age:98,expDays:null,notes:"Pacific Supply Co."},
+    {id:4,lot:"LOT-0550-C",skuId:6,skuName:"Vitamin C 1000mg",recv:"2024-02-01",expiry:"2026-04-16",qtyLeft:320,cost:6.80,age:37,expDays:37,notes:""},
+    {id:5,lot:"LOT-0330-B",skuId:3,skuName:"Yoga Mat Premium",recv:"2024-02-19",expiry:null,qtyLeft:340,cost:18.50,age:19,expDays:null,notes:""},
+    {id:6,lot:"LOT-1104-A",skuId:4,skuName:"Winter Jacket XL",recv:"2023-09-01",expiry:null,qtyLeft:127,cost:65.00,age:185,expDays:null,notes:""},
+  ],
+  ALERTS:[
+    {id:1,title:"Stockout Risk: Running Shoes M/10",desc:"Will stock out in 11 days. Lead time is 18 days. EOQ suggests order of 240 units. Immediate PO required.",sev:"CRITICAL",read:false,sku:"Running Shoes M/10",cat:"Stock",date:"2026-03-09",action:"reorder"},
+    {id:2,title:"Expiring Lot: LOT-0291-A Expiring in 18 Days",desc:"84 units of Protein Powder (LOT-0291-A) expire March 28. $1,042 at risk. FIFO priority set — ensure depletion before expiry.",sev:"HIGH",read:false,sku:"Protein Powder 2lb",cat:"Expiry",date:"2026-03-09",action:"lots"},
+    {id:3,title:"Supplier NXT-Logistics On-Time Rate at 61%",desc:"Below your 80% threshold. 3 open POs are affected. Consider activating Pacific Supply Co. as backup for Running Shoes reorder.",sev:"HIGH",read:false,sku:null,cat:"Supplier",date:"2026-03-08",action:"suppliers"},
+    {id:4,title:"Vitamin C 1000mg — 28 Days Remaining",desc:"Below your 30-day low-stock threshold. QuickShip Partners has 7-day lead time and 87% on-time rate — fastest available option.",sev:"MEDIUM",read:false,sku:"Vitamin C 1000mg",cat:"Stock",date:"2026-03-08",action:"reorder"},
+    {id:5,title:"Excess Inventory: Winter Jacket XL at 180 Days",desc:"127 units, 180 days on hand — 60 days above your 120-day threshold. $9,144 in working capital tied up. Recommend 20-30% markdown.",sev:"LOW",read:true,sku:"Winter Jacket XL",cat:"Stock",date:"2026-03-07",action:"margins"},
+    {id:6,title:"FIFO Violation Detected in Zone B",desc:"Warehouse Zone B is picking LOT-0291-B before LOT-0291-A. Older lot expires in 18 days — switch pick order to FIFO to prevent write-off.",sev:"MEDIUM",read:true,sku:"Protein Powder 2lb",cat:"Stock",date:"2026-03-07",action:"warehouse"},
+  ],
+  SUPPLIERS:[
+    {id:1,name:"NXT-Logistics",email:"orders@nxt.com",lt:18,ontime:61,fill:88,risk:"HIGH",terms:"Net 30",trend:"declining",country:"USA",currency:"USD",notes:"3rd late delivery in 6 weeks."},
+    {id:2,name:"Pacific Supply Co.",email:"supply@pacific.com",lt:14,ontime:94,fill:98,risk:"LOW",terms:"Net 60",trend:"stable",country:"USA",currency:"USD",notes:"Preferred footwear supplier."},
+    {id:3,name:"QuickShip Partners",email:"qs@quickship.com",lt:7,ontime:87,fill:95,risk:"MEDIUM",terms:"Net 30",trend:"improving",country:"UK",currency:"GBP",notes:"Good for urgent replenishment."},
+  ],
+  AI_INSIGHTS:[
+    {icon:'⚠️',title:'Running Shoes M/10 — Stockout in 11 Days',detail:'Current stock (42 units) depletes in 11 days. Lead time is 18 days — a 7-day gap. Order immediately to maintain service level.',color:'#DC2626',color_light:'rgba(220,38,38,0.08)',priority:'HIGH',impact:'+$3,740 revenue protected',action:'Create PO Now',actionFn:"goto('reorder')",secondary:'Reorder Engine',secondaryFn:"goto('reorder')",category:'Stock Risk',date:'Today'},
+    {icon:'💡',title:'LIFO Method Saves $4,600 in Taxes This Quarter',detail:'Under LIFO, COGS increases $18,400 due to rising costs, reducing taxable income. At 25% rate, this saves ~$4,600 vs FIFO. Consult your accountant before switching.',color:'#7C3AED',color_light:'rgba(124,58,237,0.08)',priority:'MEDIUM',impact:'$4,600 tax savings',action:'View Financial Model',actionFn:"goto('finance')",secondary:'Compare in Lots',secondaryFn:"goto('lots')",category:'Finance',date:'Today'},
+    {icon:'📦',title:'Winter Jacket XL — 185 Days On Hand (Excess)',detail:'$9,144 in working capital tied up at current velocity. 120+ days exceeds your excess threshold. Consider a 20-30% markdown to accelerate sell-through before Q3.',color:'#D97706',color_light:'rgba(217,119,6,0.08)',priority:'MEDIUM',impact:'$9,144 capital freed',action:'View Margins',actionFn:"goto('margins')",secondary:'View SKU',secondaryFn:"goto('skus')",category:'Inventory Optimization',date:'Today'},
+    {icon:'🏭',title:'NXT-Logistics On-Time Rate at 71% — Below Threshold',detail:'Your 80% on-time threshold is breached. NXT-Logistics is contributing directly to Running Shoes stockout risk. Consider requesting an SLA or activating a backup supplier.',color:'#DC2626',color_light:'rgba(220,38,38,0.08)',priority:'HIGH',impact:'Risk mitigation',action:'View Suppliers',actionFn:"goto('suppliers')",category:'Supplier Risk',date:'Today'},
+    {icon:'🧪',title:'Protein Powder LOT-0291-A — Expiring in 18 Days',detail:'84 units (cost $12.40/unit = $1,041 at risk) expire March 28. FIFO ensures this lot is consumed first. Verify current sell velocity can clear it before expiry.',color:'#EA580C',color_light:'rgba(234,88,12,0.08)',priority:'HIGH',impact:'$1,042 at risk',action:'View Lot Aging',actionFn:"goto('lots')",category:'Expiry Risk',date:'Today'},
+    {icon:'📈',title:'Vitamin C 1000mg — ABC Upgrade Candidate',detail:'Highest demand velocity (4,800 units/year) but classified Class C due to low unit price. Consider upgrading to Class B for tighter reorder controls.',color:'#2563EB',color_light:'rgba(37,99,235,0.08)',priority:'LOW',impact:'Service level improvement',action:'Override ABC Class',actionFn:"goto('abc')",category:'Classification',date:'Today'},
+  ],
+  POS:[
+    {id:1,num:"PO-AX7K2M",sku:"Running Shoes M/10",sup:"Pacific Supply Co.",qty:240,total:10560,status:"DRAFT",eta:"2026-03-28",notes:"EOQ-recommended. Approved by Jamie M."},
+    {id:2,num:"PO-BQ9R4N",sku:"Vitamin C 1000mg",sup:"QuickShip Partners",qty:500,total:3400,status:"SENT",eta:"2026-03-17",notes:""},
+    {id:3,num:"PO-CZ3T8P",sku:"Wireless Earbuds Pro",sup:"NXT-Logistics",qty:200,total:17800,status:"CONFIRMED",eta:"2026-03-31",notes:"Monitor NXT delivery risk."},
+  ],
+  WAREHOUSES:[
+    {id:1,name:"Zone A",type:"Standard",capacity:5000,used:2840,bins:["A-01","A-02","A-03","A-04","A-12"]},
+    {id:2,name:"Zone B",type:"Standard",capacity:4000,used:2680,bins:["B-01","B-02","B-03","B-07"]},
+    {id:3,name:"Zone C",type:"Bulk",capacity:8000,used:4620,bins:["C-07","C-14","C-15"]},
+    {id:4,name:"Quarantine",type:"Quarantine",capacity:500,used:0,bins:["Q-01"]},
+  ],
+  TRANSFERS:[
+    {id:1,num:"TR-0041",from:"Zone B",to:"Zone A",sku:"Protein Powder 2lb",qty:84,date:"2026-03-11",status:"PENDING",reason:"FIFO rotation — older lot to front"},
+    {id:2,num:"TR-0040",from:"Zone C",to:"Zone A",sku:"Vitamin C 1000mg",qty:200,date:"2026-03-08",status:"COMPLETED",reason:"Replenishment"},
+  ],
+  CYCLE_SCHEDULES:[
+    {id:1,zone:"Zone A",skuClass:"A",freq:"Weekly",nextDue:"2026-03-18",lastCount:"2026-03-11",status:"UPCOMING"},
+    {id:2,zone:"Zone B",skuClass:"A,B",freq:"Bi-weekly",nextDue:"2026-03-22",lastCount:"2026-03-08",status:"UPCOMING"},
+    {id:3,zone:"Zone C",skuClass:"All",freq:"Monthly",nextDue:"2026-04-01",lastCount:"2026-03-01",status:"OK"},
+  ],
+  DISCREPANCIES:[
+    {id:1,sku:"Running Shoes M/10",expected:42,counted:39,variance:-3,valueImpact:-132,resolved:false},
+  ],
+  BINS:[
+    {bin:"A-01-2",zone:"Zone A",sku:"Vitamin C 1000mg",qty:320,capacity:500},
+    {bin:"A-02-1",zone:"Zone A",sku:"Protein Powder 2lb",qty:294,capacity:600},
+    {bin:"A-12-3",zone:"Zone A",sku:"Running Shoes M/10",qty:42,capacity:200},
+    {bin:"B-03-1",zone:"Zone B",sku:"Wireless Earbuds Pro",qty:128,capacity:300},
+    {bin:"C-07-2",zone:"Zone C",sku:"Yoga Mat Premium",qty:340,capacity:600},
+    {bin:"C-14-5",zone:"Zone C",sku:"Winter Jacket XL",qty:127,capacity:400},
+  ],
+};
 
-let POS = [
-  {id:1,num:"PO-AX7K2M",sku:"Running Shoes M/10",sup:"Pacific Supply Co.",qty:240,total:10560,status:"DRAFT",eta:"2026-03-28",notes:"EOQ-recommended. Approved by Jamie M."},
-  {id:2,num:"PO-BQ9R4N",sku:"Vitamin C 1000mg",sup:"QuickShip Partners",qty:500,total:3400,status:"SENT",eta:"2026-03-17",notes:""},
-  {id:3,num:"PO-CZ3T8P",sku:"Wireless Earbuds Pro",sup:"NXT-Logistics",qty:200,total:17800,status:"CONFIRMED",eta:"2026-03-31",notes:"Monitor NXT delivery risk."},
-];
-let WAREHOUSES = [
-  {id:1,name:"Zone A",type:"Standard",capacity:5000,used:2840,bins:["A-01","A-02","A-03","A-04","A-12"]},
-  {id:2,name:"Zone B",type:"Standard",capacity:4000,used:2680,bins:["B-01","B-02","B-03","B-07"]},
-  {id:3,name:"Zone C",type:"Bulk",capacity:8000,used:4620,bins:["C-07","C-14","C-15"]},
-  {id:4,name:"Quarantine",type:"Quarantine",capacity:500,used:0,bins:["Q-01"]},
-];
-let TRANSFERS = [
-  {id:1,num:"TR-0041",from:"Zone B",to:"Zone A",sku:"Protein Powder 2lb",qty:84,date:"2026-03-11",status:"PENDING",reason:"FIFO rotation — older lot to front"},
-  {id:2,num:"TR-0040",from:"Zone C",to:"Zone A",sku:"Vitamin C 1000mg",qty:200,date:"2026-03-08",status:"COMPLETED",reason:"Replenishment"},
-];
-let CYCLE_SCHEDULES = [
-  {id:1,zone:"Zone A",skuClass:"A",freq:"Weekly",nextDue:"2026-03-18",lastCount:"2026-03-11",status:"UPCOMING"},
-  {id:2,zone:"Zone B",skuClass:"A,B",freq:"Bi-weekly",nextDue:"2026-03-22",lastCount:"2026-03-08",status:"UPCOMING"},
-  {id:3,zone:"Zone C",skuClass:"All",freq:"Monthly",nextDue:"2026-04-01",lastCount:"2026-03-01",status:"OK"},
-];
-let DISCREPANCIES = [
-  {id:1,sku:"Running Shoes M/10",expected:42,counted:39,variance:-3,valueImpact:-132,resolved:false},
-];
-let BINS = [
-  {bin:"A-01-2",zone:"Zone A",sku:"Vitamin C 1000mg",qty:320,capacity:500},
-  {bin:"A-02-1",zone:"Zone A",sku:"Protein Powder 2lb",qty:294,capacity:600},
-  {bin:"A-12-3",zone:"Zone A",sku:"Running Shoes M/10",qty:42,capacity:200},
-  {bin:"B-03-1",zone:"Zone B",sku:"Wireless Earbuds Pro",qty:128,capacity:300},
-  {bin:"C-07-2",zone:"Zone C",sku:"Yoga Mat Premium",qty:340,capacity:600},
-  {bin:"C-14-5",zone:"Zone C",sku:"Winter Jacket XL",qty:127,capacity:400},
-];
-let importHistory = [], csvRows = [];
+// All arrays start EMPTY — demo data loaded only on demoLogin()
+let SKUS=[], LOTS=[], ALERTS=[], SUPPLIERS=[], AI_INSIGHTS=[], POS=[];
+let WAREHOUSES=[], TRANSFERS=[], CYCLE_SCHEDULES=[], DISCREPANCIES=[], BINS=[];
+let importHistory=[], csvRows=[];
 
 // ── HELPERS ─────────────────────────────────────────────────────────
 const fmt = n => '$'+Number(n||0).toLocaleString(undefined,{minimumFractionDigits:0,maximumFractionDigits:0});
@@ -4122,15 +4128,16 @@ async function doAuth(){
   }catch(e){btn.disabled=false;btn.textContent=authTab==='login'?'Sign In':'Create Account';document.getElementById('auth-error').textContent='Authentication error. Check your Supabase config.';document.getElementById('auth-error').style.display='block';}
 }
 function demoLogin(){
-  try{
-    document.getElementById('auth-screen').style.display='none';
-    document.getElementById('landing').style.display='none';
-    initApp(null);
-  }catch(e){
-    console.error('demoLogin error:',e);
-    // Still try to show the app
-    document.getElementById('app').style.display='flex';
-  }
+  // Load demo data — ONLY ever happens in demo mode, never for real accounts
+  SKUS=[...DEMO_DATA.SKUS]; LOTS=[...DEMO_DATA.LOTS]; ALERTS=[...DEMO_DATA.ALERTS];
+  SUPPLIERS=[...DEMO_DATA.SUPPLIERS]; AI_INSIGHTS=[...DEMO_DATA.AI_INSIGHTS];
+  POS=[...DEMO_DATA.POS]; WAREHOUSES=[...DEMO_DATA.WAREHOUSES];
+  TRANSFERS=[...DEMO_DATA.TRANSFERS]; CYCLE_SCHEDULES=[...DEMO_DATA.CYCLE_SCHEDULES];
+  DISCREPANCIES=[...DEMO_DATA.DISCREPANCIES]; BINS=[...DEMO_DATA.BINS];
+  document.getElementById('auth-screen').style.display='none';
+  document.getElementById('landing').style.display='none';
+  document.getElementById('app').style.display='flex';
+  initApp(null);
 }
 async function signOut(){if(sb)await sb.auth.signOut();location.reload();}
 function toggleUserMenu(){const m=document.getElementById('user-menu');m.style.display=m.style.display==='block'?'none':'block';}
@@ -4139,12 +4146,6 @@ document.addEventListener('click',e=>{if(!e.target.closest('#sb-user-btn')&&!e.t
 // ── INIT ──────────────────────────────────────────────────────────────
 function initApp(user){
   currentUser=user;
-  // If real user, wipe demo arrays so nothing bleeds through
-  if(user){
-    SKUS=[];LOTS=[];POS=[];SUPPLIERS=[];ALERTS=[];
-    WAREHOUSES=[];TRANSFERS=[];BINS=[];CYCLE_SCHEDULES=[];DISCREPANCIES=[];
-    AI_INSIGHTS=[];AUDIT_LOG=[];
-  }
   document.getElementById('app').style.display='flex';
   document.getElementById('landing').style.display='none';
   document.getElementById('auth-screen').style.display='none';
